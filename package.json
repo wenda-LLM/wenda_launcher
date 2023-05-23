@@ -1,0 +1,11 @@
+{
+    "name": "wenda_launcher",
+    "main": "static/a.html",
+    "window": {
+      "width": 740, 
+      "height": 600, 
+      "frame": false,
+      "resizable": false
+    }
+    
+}

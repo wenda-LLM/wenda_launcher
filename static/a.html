@@ -1,0 +1,264 @@
+<html>
+
+<head>
+	<title>闻达启动器</title>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=400,  user-scalable=no">
+	<link rel="shortcut icon" href="#" />
+
+	<link href="/static/mdi_font/css/materialdesignicons.min.css" rel="stylesheet">
+
+	<link href="/static/vuetify.min.css" rel="stylesheet">
+	<script src="/static/vue.js"></script>
+	<script src="/static/vue-i18n.js"></script>
+	<script src="/static/vuetify.min.js"></script>
+	<script src="/static/markdown-it.min.js"></script>
+	<script src="/static/strings.js"></script>
+	<style>
+		.v-application--wrap {
+			display: unset;
+		}
+
+		html {
+			overflow-y: hidden;
+		}
+
+		.v-sheet.v-card {
+			background-color: #00000014
+		}
+
+		.v-btn {
+			margin: 8px;
+			min-width: 164px !important;
+			min-height: 94px;
+			background-color: #fff;
+		}
+
+		.v-icon.v-icon--left {
+			font-size: 31px;
+			height: 28px;
+			width: 38px;
+		}
+
+		.v-window__container,
+		.v-window-item,
+		.v-card__text,
+		.v-tabs {
+			height: 100%;
+		}
+
+		header {
+			-webkit-app-region: drag;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app" v-cloak>
+		<v-app>
+			<v-card style="border-radius: 0;">
+				<v-toolbar flat dark color="purple">
+					<v-toolbar-title>闻达启动器</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-icon text @click="nw.App.quit()" style="-webkit-app-region: none">
+						mdi-close
+					</v-icon>
+				</v-toolbar>
+				<v-tabs vertical color="purple">
+					<v-tabs-slider color="purple"></v-tabs-slider>
+					<v-tab>
+						<v-icon left>
+							mdi-cog-box
+						</v-icon>
+						程序管理
+					</v-tab>
+					<v-tab>
+						<v-icon left>
+							mdi-play
+						</v-icon>
+						程序运行
+					</v-tab>
+					<v-tab>
+						<v-icon left>
+							mdi-graph
+						</v-icon>
+						依赖管理
+					</v-tab>
+					<v-tab>
+						<v-icon left>
+							mdi-bookshelf
+						</v-icon>
+						知识管理
+					</v-tab>
+
+					<v-tab-item>
+						<v-card flat>
+							<v-card-text>
+								本程序启动后将自动更新，您在每次运行前都应进行更新已修复已知Bug和升级功能。对于新手用户，不需要进行初始化配置或更改配置文件。
+								<br>
+								<br>
+								<v-btn color="purple" outlined size="x-large" @click="更新()" :loading="b正在更新"
+									:disabled="b正在运行">
+									<v-icon left> mdi-cloud-refresh </v-icon>
+									更新
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='child_process.exec("copy "+ process.execPath.replace(/wenda_launcher.+/, "wenda\\")+"example.config.yml "+ process.execPath.replace(/wenda_launcher.+/, "wenda\\")+"config.yml")'>
+									<v-icon left> mdi-cog-clockwise </v-icon>初始化配置
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='child_process.execFile("notepad",[process.execPath.replace(/wenda_launcher.+/, "wenda\\") + "config.yml"])'>
+									<v-icon left> mdi-cog </v-icon>更改配置文件
+								</v-btn>
+							</v-card-text>
+						</v-card>
+					</v-tab-item>
+					<v-tab-item>
+						<v-card flat>
+							<v-card-text>
+								使用运行服务功能启动闻达服务器，注意在启动前确保已下载模型(见依赖管理)。启动后可以打开网页。
+								<br>
+								<br>
+								遇到问题或有高阶需求建议查看项目文档。
+								<br>
+								<br>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\run_GLM6B.bat"))'
+									:loading="b正在运行" :disabled="b正在更新">
+									<v-icon left> mdi-play </v-icon>运行服务<br>GLM6B
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\run_rwkv_with_vc.bat"))'
+									:loading="b正在运行" :disabled="b正在更新">
+									<v-icon left> mdi-play </v-icon>运行服务<br>RWKV
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\run_rwkv.bat"))'
+									:loading="b正在运行" :disabled="b正在更新">
+									<v-icon left> mdi-play </v-icon>运行服务<br>RWKV兼容模式
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openExternal("http://127.0.0.1:17860/")'>
+									<v-icon left> mdi-web </v-icon>打开网页
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large" style="text-transform: none;"
+									@click='nw.Shell.openExternal("http://127.0.0.1:17860/static/wenda-webui/index.html")'>
+									<v-icon left> mdi-web </v-icon>AlanLee's<br>WebUI
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openExternal("https://github.com/l15y/wenda")'>
+									<v-icon left> mdi-file-document-outline </v-icon>项目文档
+								</v-btn>
+							</v-card-text>
+						</v-card>
+					</v-tab-item>
+					<v-tab-item>
+						<v-card flat>
+							<v-card-text>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\model"))'>
+									<v-icon left> mdi-file-cabinet </v-icon>打开模型目录
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openExternal("https://pan.baidu.com/s/105nOsldGt5mEPoT2np1ZoA?pwd=lyqz#list/path=%2Fwenda%2F%E6%A8%A1%E5%9E%8B%E8%A7%A3%E5%8E%8B%E6%94%BE%E5%88%B0model")'>
+									<v-icon left> mdi-download </v-icon>网盘下载模型
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\")+"WPy64-31110\\WinPython Command Prompt.exe")'>
+									<v-icon left> mdi-console </v-icon> PIP命令行
+								</v-btn>
+							</v-card-text>
+						</v-card>
+					</v-tab-item>
+					<v-tab-item>
+						<v-card flat>
+							<v-card-text>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\txt"))'>
+									<v-icon left> mdi-file-edit </v-icon> 管理文档
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\plugins\\buils_rtst_default_index.bat"))'>
+									<v-icon left> mdi-database-export </v-icon> 知识库生成
+								</v-btn>
+								<v-btn color="purple" outlined size="x-large"
+									@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\memory"))'>
+									<v-icon left> mdi-database-edit </v-icon> 管理向量数据库
+								</v-btn>
+							</v-card-text>
+						</v-card>
+					</v-tab-item>
+				</v-tabs>
+			</v-card>
+
+	</div>
+	<script>
+		app = new Vue({
+			el: '#app',
+			vuetify: new Vuetify(),
+			i18n: i18n,
+			data: () => ({
+				error: "",
+				stdout: "",
+				b正在更新: false,
+				b正在运行: false,
+				s运行结果: ""
+			}),
+			methods: {
+			}
+		})
+		child_process = require("child_process")
+		更新 = () => {
+			app.b正在更新 = true
+			child_process.execFile("../git/cmd/git",
+				['pull'],
+				{ cwd: process.execPath.replace(/wenda_launcher.+/, "wenda") },
+				function (error, stdout, stderr) {
+					app.error = stderr || "无"
+					app.stdout = stdout || "无"
+					console.log([error]);
+					console.log([stdout]);
+					app.b正在更新 = false
+					if (error && stderr.indexOf("unable to access") > -1) {
+						alert("网络连接失败，请过一段时间重试")
+					}
+					if (!error) {
+						alert("更新成功")
+					}
+				});
+		}
+		setTimeout(更新, 400)
+
+		运行 = () => {
+			wenda = child_process.spawn(process.execPath.replace(/wenda_launcher.+/, "wenda\\") + "run_chatglm130b_api.bat",
+				[],
+				{ cwd: process.execPath.replace(/wenda_launcher.+/, "wenda") },
+				function (error, stdout, stderr) {
+				});
+			app.b正在运行 = true
+			wenda.stdout.on('data', (data) => {
+				console.log(`stdout: ${data}`);
+				app.s运行结果 += data
+			});
+
+			wenda.stderr.on('data', (data) => {
+				console.error(`stderr: ${data}`);
+				if (data.indexOf("Repository Not Found for url: https://huggingface.co/api/models/model/text2vec-large-chinese.") > -1) {
+					alert("没有下载embedding模型！")
+				}
+			});
+
+			wenda.on('close', (code) => {
+				console.log(`child process exited with code ${code}`);
+			});
+		}
+		start = s => {
+			require('child_process').exec(`start "" "${s}"`)
+		}
+	</script>
+</body>
+
+</html>
