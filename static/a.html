@@ -106,7 +106,7 @@
 										<v-icon left> mdi-cloud-refresh </v-icon>
 										更新主程序
 									</v-btn>
-									<v-btn color="purple" outlined size="x-large" @click="更新启动器()">
+									<v-btn color="purple" outlined size="x-large" @click="更新启动器()" :loading="b正在更新启动器">
 										<v-icon left> mdi-cloud-refresh </v-icon>
 										更新启动器
 									</v-btn>
@@ -210,6 +210,7 @@
 				error: "",
 				stdout: "",
 				b正在更新: false,
+				b正在更新启动器:false,
 				b正在运行: false,
 				s运行结果: ""
 			}),
@@ -239,11 +240,12 @@
 		setTimeout(更新, 400)
 
 		更新启动器 = () => {
-			app.b正在更新 = true
+			app.b正在更新启动器 = true
 			child_process.execFile("../git/cmd/git",
 				['pull'],
 				{ cwd: process.execPath.replace(/wenda_launcher.+/, "wenda_launcher") },
 				function (error, stdout, stderr) {
+					app.b正在更新启动器 = false
 					console.log([error]);
 					console.log([stdout]);
 					if (error && stderr.indexOf("unable to access") > -1) {
