@@ -93,6 +93,12 @@
 							</v-icon>
 							知识管理
 						</v-tab>
+						<v-tab>
+							<v-icon left>
+								mdi-sprout
+							</v-icon>
+							Runner
+						</v-tab>
 
 						<v-tab-item>
 							<v-card flat>
@@ -106,7 +112,8 @@
 										<v-icon left> mdi-cloud-refresh </v-icon>
 										更新主程序
 									</v-btn>
-									<v-btn color="purple" outlined size="x-large" @click="更新启动器()" :loading="b正在更新启动器">
+									<v-btn color="purple" outlined size="x-large" @click="更新启动器()"
+										:loading="b正在更新启动器">
 										<v-icon left> mdi-cloud-refresh </v-icon>
 										更新启动器
 									</v-btn>
@@ -202,6 +209,26 @@
 								</v-card-text>
 							</v-card>
 						</v-tab-item>
+						<v-tab-item>
+							<v-card flat>
+								<v-card-text>
+									本页内容专用于配合RWKV Runner使用。<br>
+									确保当前懒人版是RWKV Runner版本，或将文件放在正确位置，形如D:\wd-git\runner\RWKV-Runner_windows_x64_v1.2.0.exe。<br><br>
+									初次使用注意：先运行RWKV Runner并部署，再点击安装依赖。完成后点击运行服务。
+									<br>
+									<br>
+									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\run_openaiapi.bat"))'
+										:loading="b正在运行" :disabled="b正在更新">
+										<v-icon left> mdi-play </v-icon>运行服务<br>API
+									</v-btn>
+									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openItem(process.execPath.replace("nw.exe", "install_wenda_from_rwkv_runner.bat"))'>
+										<v-icon left> mdi-console </v-icon> 安装依赖
+									</v-btn>
+								</v-card-text>
+							</v-card>
+						</v-tab-item>
 					</v-tabs>
 				</v-card>
 
@@ -264,29 +291,6 @@
 						alert("更新成功")
 					}
 				});
-		}
-		运行 = () => {
-			wenda = child_process.spawn(process.execPath.replace(/wenda_launcher.+/, "wenda\\") + "run_chatglm130b_api.bat",
-				[],
-				{ cwd: process.execPath.replace(/wenda_launcher.+/, "wenda") },
-				function (error, stdout, stderr) {
-				});
-			app.b正在运行 = true
-			wenda.stdout.on('data', (data) => {
-				console.log(`stdout: ${data}`);
-				app.s运行结果 += data
-			});
-
-			wenda.stderr.on('data', (data) => {
-				console.error(`stderr: ${data}`);
-				if (data.indexOf("Repository Not Found for url: https://huggingface.co/api/models/model/text2vec-large-chinese.") > -1) {
-					alert("没有下载embedding模型！")
-				}
-			});
-
-			wenda.on('close', (code) => {
-				console.log(`child process exited with code ${code}`);
-			});
 		}
 		start = s => {
 			require('child_process').exec(`start "" "${s}"`)
