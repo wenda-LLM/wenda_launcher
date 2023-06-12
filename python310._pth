@@ -1,0 +1,6 @@
+python310.zip
+.
+..\..\wenda
+Lib\site-packages
+# Uncomment to run site.main() automatically
+#import site

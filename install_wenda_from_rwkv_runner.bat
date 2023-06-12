@@ -1,6 +1,7 @@
 @echo off 
 call ..\wenda\envirment.bat
 echo %WINPYDIR%\Lib\site-packages
+xcopy python310._pth %WINPYDIR%\python310._pth /y
 xcopy bins\olefile-0.46.dist-info\* %WINPYDIR%\Lib\site-packages\olefile-0.46.dist-info\* /y
 xcopy bins\olefile\* %WINPYDIR%\Lib\site-packages\olefile\* /y
 xcopy bins\nltk_data\* %WINPYDIR%\nltk_data\* /y /s
