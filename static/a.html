@@ -117,6 +117,11 @@
 										<v-icon left> mdi-cloud-refresh </v-icon>
 										更新启动器
 									</v-btn>
+									<v-btn color="purple" outlined size="x-large" @click="更新办公助手()"
+										:loading="b正在更新办公助手">
+										<v-icon left> mdi-cloud-refresh </v-icon>
+										更新办公助手
+									</v-btn>
 									<v-btn color="purple" outlined size="x-large"
 										@click='child_process.exec("copy "+ process.execPath.replace(/wenda_launcher.+/, "wenda\\")+"example.config.yml "+ process.execPath.replace(/wenda_launcher.+/, "wenda\\")+"config.yml")'>
 										<v-icon left> mdi-cog-clockwise </v-icon>初始化配置
@@ -151,6 +156,11 @@
 										@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\run_rwkv.bat"))'
 										:loading="b正在运行" :disabled="b正在更新">
 										<v-icon left> mdi-play </v-icon>运行服务<br>RWKV兼容模式
+									</v-btn>
+									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "WDOC\\nw.exe"))'
+										:loading="b正在运行" :disabled="b正在更新">
+										<v-icon left> mdi-play </v-icon>运行办公助手
 									</v-btn>
 									<v-btn color="purple" outlined size="x-large"
 										@click='nw.Shell.openExternal("http://127.0.0.1:17860/")'>
@@ -238,6 +248,7 @@
 				stdout: "",
 				b正在更新: false,
 				b正在更新启动器:false,
+				b正在更新办公助手:false,
 				b正在运行: false,
 				s运行结果: ""
 			}),
@@ -277,6 +288,23 @@
 				{ cwd: process.execPath.replace(/wenda_launcher.+/, "wenda_launcher") },
 				function (error, stdout, stderr) {
 					app.b正在更新启动器 = false
+					console.log([error]);
+					console.log([stdout]);
+					if (error && stderr.indexOf("unable to access") > -1) {
+						alert("网络连接失败，请过一段时间重试")
+					}
+					if (!error) {
+						alert("更新成功")
+					}
+				});
+		}
+		更新办公助手 = () => {
+			app.b正在更新办公助手 = true
+			child_process.execFile("../git/cmd/git",
+				['pull'],
+				{ cwd: process.execPath.replace(/wenda_launcher.+/, "WDOC") },
+				function (error, stdout, stderr) {
+					app.b正在更新办公助手 = false
 					console.log([error]);
 					console.log([stdout]);
 					if (error && stderr.indexOf("unable to access") > -1) {
