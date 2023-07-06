@@ -211,6 +211,14 @@
 										@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\memory"))'>
 										<v-icon left> mdi-database-edit </v-icon> 管理向量数据库
 									</v-btn>
+									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openExternal("http://127.0.0.1:17860/static/st.html")'>
+										<v-icon left> mdi-web </v-icon>管理向量数据库<br>(在线)
+									</v-btn>
+									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openExternal("http://127.0.0.1:17860/wdss.html")'>
+										<v-icon left> mdi-web </v-icon>闻达搜素<br>(在线)
+									</v-btn>
 								</v-card-text>
 							</v-card>
 						</v-tab-item>
