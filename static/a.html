@@ -83,6 +83,12 @@
 						</v-tab>
 						<v-tab>
 							<v-icon left>
+								mdi-web
+							</v-icon>
+							打开网页
+						</v-tab>
+						<v-tab>
+							<v-icon left>
 								mdi-graph
 							</v-icon>
 							依赖管理
@@ -182,6 +188,33 @@
 							<v-card flat>
 								<v-card-text>
 									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openExternal("http://127.0.0.1:17860/")'>
+										<v-icon left> mdi-web </v-icon>主页面
+									</v-btn>
+									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openExternal("http://127.0.0.1:17860/wdss.html")'>
+										<v-icon left> mdi-map-search </v-icon>闻达搜素
+									</v-btn>
+									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openExternal("http://127.0.0.1:17860/wdlw.html")'>
+										<v-icon left> mdi-note-text </v-icon>闻达论文
+									</v-btn>
+									<v-btn color="purple" outlined size="x-large"
+										style="text-transform: none;"
+										@click='nw.Shell.openExternal("http://127.0.0.1:17860/alan_ui.html")'>
+										<v-icon left> mdi-web </v-icon>AlanLee's<br>WebUI
+									</v-btn>
+									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openExternal("https://github.com/l15y/wenda")'>
+										<v-icon left> mdi-file-document-outline </v-icon>项目文档
+									</v-btn>
+								</v-card-text>
+							</v-card>
+						</v-tab-item>
+						<v-tab-item>
+							<v-card flat>
+								<v-card-text>
+									<v-btn color="purple" outlined size="x-large"
 										@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\model"))'>
 										<v-icon left> mdi-file-cabinet </v-icon>打开模型目录
 									</v-btn>
@@ -214,10 +247,6 @@
 									<v-btn color="purple" outlined size="x-large"
 										@click='nw.Shell.openExternal("http://127.0.0.1:17860/static/st.html")'>
 										<v-icon left> mdi-web </v-icon>管理向量数据库<br>(在线)
-									</v-btn>
-									<v-btn color="purple" outlined size="x-large"
-										@click='nw.Shell.openExternal("http://127.0.0.1:17860/wdss.html")'>
-										<v-icon left> mdi-web </v-icon>闻达搜素<br>(在线)
 									</v-btn>
 								</v-card-text>
 							</v-card>
