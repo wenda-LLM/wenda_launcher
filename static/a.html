@@ -223,6 +223,10 @@
 										<v-icon left> mdi-download </v-icon>网盘下载模型
 									</v-btn>
 									<v-btn color="purple" outlined size="x-large"
+										@click='nw.Shell.openExternal("https://wenda-llm.github.io/download-hf-use-aria2/index.html")'>
+										<v-icon left> mdi-download </v-icon>模型下载器<br>（需要Aria2）
+									</v-btn>
+									<v-btn color="purple" outlined size="x-large"
 										@click='nw.Shell.openItem(process.execPath.replace(/wenda_launcher.+/, "wenda\\")+"WPy64-31110\\WinPython Command Prompt.exe")'>
 										<v-icon left> mdi-console </v-icon> PIP命令行
 									</v-btn>
